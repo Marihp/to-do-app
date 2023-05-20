@@ -21,7 +21,7 @@ db = SQLAlchemy(app)
 
 
 # Crear modelo de la base de datos
-class Todo_list(db.Model):
+class TodoList(db.Model):
     # Crear columnas de la base de datos
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200))
@@ -44,7 +44,7 @@ def index():
     """
 
     # Obtener todas las tareas de la base de datos
-    todo_list = db.session.query(Todo_list).all()
+    todo_list = db.session.query(TodoList).all()
 
     # Renderizar la plantilla index.html
     return render_template("index.html", todo_list=todo_list)
@@ -65,7 +65,7 @@ def add():
     todo = request.form.get("todo")
 
     # Crear una nueva tarea
-    new_todo = Todo_list(content=todo, completed=False)
+    new_todo = TodoList(content=todo, completed=False)
 
     # Agregar la nueva tarea a la base de datos
     db.session.add(new_todo)
@@ -92,7 +92,7 @@ def complete(todo_id):
     """
 
     # Obtener la tarea desde la base de datos
-    todo = Todo_list.query.filter_by(id=todo_id).first()
+    todo = TodoList.query.filter_by(id=todo_id).first()
 
     # Marcar la tarea como completada
     todo.completed = True
@@ -119,7 +119,7 @@ def delete(todo_id):
     """
 
     # Obtener la tarea desde la base de datos
-    todo = Todo_list.query.filter_by(id=todo_id).first()
+    todo = TodoList.query.filter_by(id=todo_id).first()
 
     # Eliminar la tarea de la base de datos
     db.session.delete(todo)
